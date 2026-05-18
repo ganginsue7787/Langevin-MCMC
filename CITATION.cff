@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "If you use this code or results, please cite as below."
+type: software
+title: "Energy Barriers and Fundamental Limits of Langevin MCMC in Nonconvex Optimization"
+abstract: >
+  Code and experiments for the paper analyzing energy barriers in nonconvex
+  polynomial landscapes via Morse theory, with explicit Eyring–Kramers spectral
+  gap bounds and phase transition verification for Langevin MCMC.
+authors:
+  - family-names: "[Last Name]"
+    given-names: "[First Name]"
+    affiliation: "[Institution]"
+    email: "[email]"
+repository-code: "https://github.com/[username]/langevin-energy-barriers"
+license: MIT
+version: "1.0.0"
+date-released: "2025-04-26"
+keywords:
+  - Langevin MCMC
+  - nonconvex optimization
+  - Morse theory
+  - energy landscape
+  - spectral gap
+  - Eyring-Kramers
+  - metastability
+  - mixing time
+  - polynomial root-finding
+preferred-citation:
+  type: article
+  title: "Energy Barriers and Fundamental Limits of Langevin MCMC in Nonconvex Optimization"
+  authors:
+    - family-names: "[Last Name]"
+      given-names: "[First Name]"
+  journal: "Stochastic Processes and their Applications"
+  year: 2025
+  status: submitted
