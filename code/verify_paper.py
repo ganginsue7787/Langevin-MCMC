@@ -285,7 +285,10 @@ def exp3():
     betas_scan = [0.15, 0.20, 0.25, 0.30, 0.35, 0.40,
                   0.45, 0.50, 0.55, 0.60, 0.70, 0.80, 1.00]
     n_per_beta = 50
-    max_steps  = 70000
+    # 전이점(성공률) 검증은 짧은 시간창에서 trapping을 드러내는 것이 핵심
+    max_steps_phase = 5500
+    # 지수 기울기 검증은 충분한 시간창에서 평균 커버리지 시간을 추정
+    max_steps_slope = 70000
 
     print(f"\n  {'β':>5}  {'성공률':>7}  {'평균T':>9}  {'vs β_c':>8}  막대")
     print(f"  {'─'*65}")
@@ -294,7 +297,7 @@ def exp3():
 
     for beta in betas_scan:
         _, rate, mean_T = coverage_stats(
-            beta, n=n_per_beta, max_steps=max_steps,
+            beta, n=n_per_beta, max_steps=max_steps_phase,
             seed_base=int(beta*2000)+9999
         )
         success_rates.append(rate)
@@ -321,9 +324,19 @@ def exp3():
     print(f"  상대오차 = {err_bc:.1f}%")
 
     sec("지수 스케일링: T_cov ~ exp(β·H*)")
-    valid = sr > 0.20
-    if np.sum(valid) >= 3:
-        bv = ba[valid]; lt = np.log(np.array(mean_times)[valid])
+    # slope 검증은 긴 max_steps를 별도로 사용 (성공률 전이 판정과 분리)
+    betas_slope = [0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80]
+    slope_times = []
+    for beta in betas_slope:
+        _, _, mean_T = coverage_stats(
+            beta, n=20, max_steps=max_steps_slope,
+            seed_base=int(beta*2000)+9999
+        )
+        slope_times.append(mean_T)
+
+    if len(slope_times) >= 3:
+        bv = np.array(betas_slope)
+        lt = np.log(np.array(slope_times))
         cf = np.polyfit(bv, lt, 1)
         slope_T = cf[0]
         slope_err = abs(slope_T - H_STAR)/H_STAR*100
