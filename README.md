@@ -15,19 +15,19 @@
 
 ## Abstract
 
-We develop a unified spectral and geometric framework for analyzing Langevin MCMC in nonconvex energy landscapes. Focusing on polynomial energies $E(z) = |P(z)|^2$, we provide a **complete Morse-theoretic characterization** of critical points and identify the maximal saddle height $H^*$ as the fundamental scalar quantity governing metastability.
+We develop a unified spectral and geometric framework for analyzing Langevin MCMC in nonconvex energy landscapes. Focusing on polynomial energies **E(z) = |P(z)|²**, we provide a **complete Morse-theoretic characterization** of critical point structure and derive **explicit Eyring–Kramers formulas** for spectral gaps and mixing times.
 
 Our main results:
 
-$$\lambda_1(\beta) \sim C(P) \cdot e^{-\beta H^*}, \qquad t_{\text{mix}} \asymp \exp(\beta H^*)$$
+$$\lambda_1(\beta) \sim C(P) \exp\left(-\beta H^\star\right), \quad t_{\mathrm{mix}} \asymp \exp\left(\beta H^\star\right)$$
 
-Near-degenerate root configurations with separation $\varepsilon$ yield:
+Near-degenerate root configurations with separation ε yield:
 
-$$t_{\text{mix}} = \Omega\!\left(\exp\!\left(\frac{c\beta}{\varepsilon^2}\right)\right)$$
+$$t_{\mathrm{mix}} = \Omega\left(\exp\left(\frac{c\beta}{\varepsilon^2}\right)\right)$$
 
-Extended to multivariate polynomial systems $F: \mathbb{C}^m \to \mathbb{C}^m$:
+Extended to multivariate polynomial systems **F: ℂᵐ → ℂᵐ**:
 
-$$\lambda_1(\beta) \sim C_m(F) \cdot \beta^{m-1} \cdot \exp(-\beta H_m^*)$$
+$$\lambda_1(\beta) \sim C_m(F) \cdot \beta^{m-1} \cdot \exp\left(-\beta H_m^\star\right)$$
 
 ---
 
@@ -35,11 +35,11 @@ $$\lambda_1(\beta) \sim C_m(F) \cdot \beta^{m-1} \cdot \exp(-\beta H_m^*)$$
 
 | Contribution | Result | Section |
 |---|---|---|
-| **C1** Morse classification | All critical points of $E(z)=\|P(z)\|^2$ have index 0 or 1 | §3 |
-| **C2** Explicit saddle height | $H^* = \max_k \|P(w_k)\|^2$, computable from coefficients | §4 |
-| **C3** Spectral gap bound | $\lambda_1(\beta) \sim C(P) \cdot e^{-\beta H^*}$ via Eyring–Kramers | §5 |
-| **C4** Hardness lower bound | $t_{\text{mix}} = \Omega(\exp(c\beta/\varepsilon^2))$ near confluent roots | §6 |
-| **C5** Multivariate extension | $\lambda_1 \sim C_m \cdot \beta^{m-1} \cdot e^{-\beta H_m^*}$ for $F:\mathbb{C}^m \to \mathbb{C}^m$ | App. B |
+| **C1** Morse classification | All critical points of **E(z) = ‖P(z)‖²** have index 0 or 1 | §3 |
+| **C2** Explicit saddle height | **H\* = max_k ‖P(w_k)‖²**, computable from coefficients | §4 |
+| **C3** Spectral gap bound | **λ₁(β) ∼ C(P) exp(-β H\*)** via Eyring–Kramers | §5 |
+| **C4** Hardness lower bound | **t_mix = Ω(exp(c β/ε²))** near confluent roots | §6 |
+| **C5** Multivariate extension | **λ₁ ∼ C_m · β^(m-1) · exp(-β H_m\*)** for **F: ℂᵐ → ℂᵐ** | App. B |
 
 ---
 
@@ -101,23 +101,23 @@ python code/verify_paper.py
 
 Expected output:
 ```
-╔══════════════════════════════════════════════════════════════════╗
-║  EXP-1: Morse Classification (Proposition 3.2)                  ║
-╚══════════════════════════════════════════════════════════════════╝
+╔════════════════════════════════════════════════════════════════╗
+║  EXP-1: Morse Classification (Proposition 3.2)                ║
+╚════════════════════════════════════════════════════════════════╝
   PASS    근 5개 전부 Morse index 0  (5/5)
   PASS    안장점 4개 전부 Morse index 1  (4/4)
   PASS    H* 오차 < 0.01%  (0.00001%)
   PASS    Euler 표수 χ = 2
 
-╔══════════════════════════════════════════════════════════════════╗
-║  EXP-2: Spectral Gap Scaling (Theorem 5.1)                      ║
-╚══════════════════════════════════════════════════════════════════╝
+╔════════════════════════════════════════════════════════════════╗
+║  EXP-2: Spectral Gap Scaling (Theorem 5.1)                    ║
+╚════════════════════════════════════════════════════════════════╝
   PASS    R² = 0.91 ≥ 0.80
   PASS    기울기 오차 12.3% < 25%
 
-╔══════════════════════════════════════════════════════════════════╗
-║  EXP-3: Phase Transition at β_c (Section 7)                     ║
-╚══════════════════════════════════════════════════════════════════╝
+╔════════════════════════════════════════════════════════════════╗
+║  EXP-3: Phase Transition at β_c (Section 7)                   ║
+╚════════════════════════════════════════════════════════════════╝
   PASS    β̂ ≈ β_c 오차 8.2% < 30%
   PASS    Phase transition confirmed
 
@@ -130,7 +130,7 @@ Expected output:
 from code.core.energy_landscape import EnergyLandscape
 from code.core.hstar_computation import compute_hstar
 
-# P(z) = z^5 - z - 1
+# P(z) = z⁵ - z - 1
 coeffs = [1, 0, 0, 0, -1, -1]
 landscape = EnergyLandscape(coeffs)
 
@@ -148,15 +148,15 @@ print(f"Coverage time: {mean_time:.0f} steps ({success_rate:.0%} success)")
 
 ## Main Theorem (Theorem 5.1)
 
-Let $P \in \mathbb{C}[z]$ be a generic monic polynomial of degree $n$ with distinct roots and distinct critical points of $P'$. Let $w^*$ be the saddle achieving $H^*$ and $\lambda^-(w^*)$ the unique negative eigenvalue of $H_E(w^*)$. Then for all sufficiently large $\beta$:
+Let **P ∈ ℂ[z]** be a generic monic polynomial of degree **n** with distinct roots and distinct critical points of **P'**. Let **w\*** be the saddle achieving **H\*** and **λ⁻(w\*)** the unstable eigenvalue.
 
-$$\boxed{\lambda_1(\beta) \asymp \frac{|\lambda^-(w^*)|}{2\pi} \cdot \frac{\sqrt{\det H_E(z^*)}}{\sqrt{|\det H_E(w^*)|}} \cdot e^{-\beta H^*}}$$
+$$\boxed{\lambda_1(\beta) \asymp \frac{|\lambda^-(w^\star)|}{2\pi} \cdot \frac{\sqrt{\det H_E(z^\star)}}{\sqrt{|\det H_E(w^\star)|}} \cdot \exp\left(-\beta H^\star\right)}$$
 
-where $z^*$ is any root of $P$ (global minimizer of $E$).
+where **z\*** is any root of **P** (global minimizer of **E**).
 
-**For $P(z) = z^5 - z - 1$** (explicit computation, Section 6):
+**For P(z) = z⁵ - z - 1** (explicit computation, Section 6):
 
-$$\lambda_1(\beta) \approx 2.637 \cdot e^{-2.3562\,\beta}, \qquad \beta_c = \frac{1}{H^*} \approx 0.4244$$
+$$\lambda_1(\beta) \approx 2.637 \cdot \exp(-2.3562\,\beta), \quad \beta_c = \frac{1}{H^\star} \approx 0.4244$$
 
 ---
 
@@ -164,7 +164,7 @@ $$\lambda_1(\beta) \approx 2.637 \cdot e^{-2.3562\,\beta}, \qquad \beta_c = \fra
 
 Any annealing schedule satisfying
 
-$$\frac{d\beta}{dt} \leq C(P) \cdot e^{-\beta(t)\, H^*}$$
+$$\frac{\mathrm{d}\beta}{\mathrm{d}t} \leq C(P) \cdot \exp\left(-\beta(t) H^\star\right)$$
 
 guarantees asymptotically optimal global coverage of all roots. Faster schedules provably trap the chain in local basins.
 
@@ -174,20 +174,20 @@ guarantees asymptotically optimal global coverage of all roots. Faster schedules
 
 ### EXP-1: Morse Classification (Proposition 3.2)
 
-Numerically verifies that all critical points of $E(z) = |P(z)|^2$ have correct Morse indices, and that the Euler characteristic $\chi = C_0 - C_1 + C_2 = 2$ holds.
+Numerically verifies that all critical points of **E(z) = |P(z)|²** have correct Morse indices, and that the Euler characteristic **χ = C₀ - C₁ + C₂ = 2** holds.
 
-| Point | Type | Morse Index | det $H_E$ |
+| Point | Type | Morse Index | det **H_E** |
 |---|---|---|---|
-| $z_0^* \approx 1.167$ | Root of $P$ | **0** ✓ | $> 0$ |
-| $z_{1,2,3,4}^*$ | Roots of $P$ | **0** ✓ | $> 0$ |
-| $w_0 = r$ | Root of $P'$ | **1** ✓ | $< 0$ |
-| $w_{1,2,3}$ | Roots of $P'$ | **1** ✓ | $< 0$ |
+| **z₀\* ≈ 1.167** | Root of **P** | **0** ✓ | **> 0** |
+| **z₁,₂,₃,₄\*** | Roots of **P** | **0** ✓ | **> 0** |
+| **w₀ = r** | Root of **P'** | **1** ✓ | **< 0** |
+| **w₁,₂,₃** | Roots of **P'** | **1** ✓ | **< 0** |
 
 ### EXP-2: Spectral Gap Log-Linear Scaling
 
-Log-linear regression of $\log(1/T_{\text{cov}})$ vs $\beta$ yields slope $\approx -H^*$:
+Log-linear regression of **log(1/T_cov)** vs **β** yields slope **≈ -H\***:
 
-| $\beta$ | Success Rate | Mean $T_{\text{cov}}$ | $\log(1/T)$ | Theory |
+| **β** | Success Rate | Mean **T_cov** | **log(1/T)** | Theory |
 |---|---|---|---|---|
 | 0.20 | 100% | 1,842 | −7.52 | −7.81 |
 | 0.30 | 100% | 2,107 | −7.65 | −8.04 |
@@ -196,17 +196,17 @@ Log-linear regression of $\log(1/T_{\text{cov}})$ vs $\beta$ yields slope $\appr
 | 0.70 | 72% | 18,423 | −9.82 | −8.97 |
 | 0.80 | 41% | — | — | — |
 
-Fitted slope: $-2.31$ vs theoretical $-H^* = -2.356$ (**error 1.9%, $R^2 = 0.91$**).
+Fitted slope: **-2.31** vs theoretical **-H\* = -2.356** (**error 1.9%, R² = 0.91**).
 
-### EXP-3: Phase Transition at $\beta_c = 1/H^*$
+### EXP-3: Phase Transition at **β_c = 1/H\***
 
-| $\beta$ | vs $\beta_c$ | Success Rate |
+| **β** | vs **β_c** | Success Rate |
 |---|---|---|
-| 0.15–0.35 | $< \beta_c$ | 95–100% |
-| 0.40 | $\approx \beta_c$ | 78% |
-| 0.50–1.00 | $> \beta_c$ | 0–41% |
+| 0.15–0.35 | **< β_c** | 95–100% |
+| 0.40 | **≈ β_c** | 78% |
+| 0.50–1.00 | **> β_c** | 0–41% |
 
-Measured transition point $\hat{\beta} = 0.456$ vs theoretical $\beta_c = 0.4244$ (**error 7.5%**).
+Measured transition point **β̂ = 0.456** vs theoretical **β_c = 0.4244** (**error 7.5%**).
 
 ---
 
@@ -222,7 +222,7 @@ python code/applications/jeju_smp_analysis.py
 python code/applications/jeju_smp_analysis.py --api YOUR_KEY
 ```
 
-Key finding: $H^*(t)$ exceeds the 85th-percentile threshold during 14.9% of hours, corresponding exactly to periods of high SMP volatility ($p < 10^{-47}$).
+Key finding: **H\*(t)** exceeds the 85th-percentile threshold during 14.9% of hours, corresponding exactly to periods of high SMP volatility (**p < 10⁻⁴⁷**).
 
 ---
 
